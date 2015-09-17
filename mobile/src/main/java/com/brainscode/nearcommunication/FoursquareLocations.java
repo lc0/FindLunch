@@ -10,6 +10,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,9 +18,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
-class GetChildList extends AsyncTask<String, Void, String> {
+class FoursquareLocations extends AsyncTask<String, Void, String> {
 
     private String strm = "22.81,89.55";
     private String client_id = "ZLC3BYW2IPZX0UBBLIVCJJYJLDA5HTN5NQ0011SMU5CHPG3K";
@@ -27,8 +29,33 @@ class GetChildList extends AsyncTask<String, Void, String> {
     private String currentDateandTime = "20130715";  //yyyymmdd
     String jsonResult;
 
-    public GetChildList(String strm) {
+    public FoursquareLocations(String strm) {
         this.strm = strm;
+    }
+
+    private ArrayList<Venue> parse(String str) throws Exception {
+        JSONObject jObject = new JSONObject(str);
+        ArrayList<Venue> venueList = new ArrayList<Venue>();
+
+        JSONArray arr = jObject.getJSONObject("response").getJSONArray("venues");
+
+//        for (int i=0; i< arr.length(); i++)	{
+//            String name = arr.getJSONObject(i).getString("Name");
+//            String desc = arr.getJSONObject(i).getString("Description");
+//            double radius = arr.getJSONObject(i).getDouble("Radius");
+//            int id = arr.getJSONObject(i).getInt("ID");
+//            double coordX = arr.getJSONObject(i).getDouble("PlaceX");
+//            double coordY = arr.getJSONObject(i).getDouble("PlaceY");
+//            int uid = arr.getJSONObject(i).getInt("UserID");
+//            //String parentId = arr.getJSONObject(i).getString("ParentID");
+//
+//            venueList.add(new ActivityP(coordX, coordY, radius, name, desc, id, uid));
+//
+//        }
+
+        return venueList;
+
+
     }
 
     @Override
@@ -44,6 +71,12 @@ class GetChildList extends AsyncTask<String, Void, String> {
 
             HttpResponse response = httpclient.execute(httppost);  //response class to handle responses
             jsonResult = inputStreamToString(response.getEntity().getContent()).toString();
+
+            try {
+                parse(jsonResult);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             JSONObject object = new JSONObject(jsonResult);
         }

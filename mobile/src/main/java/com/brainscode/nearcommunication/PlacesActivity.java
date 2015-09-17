@@ -31,7 +31,7 @@ public class PlacesActivity extends Activity {
         String coordinates = Double.toString(latitude) +","+ Double.toString(longitude);
         Log.i("JSON", "COORDINATES: " + coordinates);
 
-        new GetChildList(coordinates).execute();
+        new FoursquareLocations(coordinates).execute();
 
         SomeFragment newFragment = new SomeFragment(latitude, longitude);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
