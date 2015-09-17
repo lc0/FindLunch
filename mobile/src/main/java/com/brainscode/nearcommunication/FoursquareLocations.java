@@ -37,22 +37,30 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
         JSONObject jObject = new JSONObject(str);
         ArrayList<Venue> venueList = new ArrayList<Venue>();
 
-        JSONArray arr = jObject.getJSONObject("response").getJSONArray("venues");
+        JSONArray venues = jObject.getJSONObject("response").getJSONArray("venues");
 
-//        for (int i=0; i< arr.length(); i++)	{
-//            String name = arr.getJSONObject(i).getString("Name");
-//            String desc = arr.getJSONObject(i).getString("Description");
-//            double radius = arr.getJSONObject(i).getDouble("Radius");
-//            int id = arr.getJSONObject(i).getInt("ID");
-//            double coordX = arr.getJSONObject(i).getDouble("PlaceX");
-//            double coordY = arr.getJSONObject(i).getDouble("PlaceY");
-//            int uid = arr.getJSONObject(i).getInt("UserID");
-//            //String parentId = arr.getJSONObject(i).getString("ParentID");
-//
-//            venueList.add(new ActivityP(coordX, coordY, radius, name, desc, id, uid));
-//
-//        }
+        for (int i=0; i< venues.length(); i++)	{
+            JSONObject venue = venues.getJSONObject(i);
 
+            String name = venue.getString("name");
+
+            JSONObject categoryObj = venue.getJSONArray("categories").getJSONObject(0);
+            Log.i("JSON", name + "category: " + categoryObj);
+            Log.i("JSON", "categories: " + venue.getJSONArray("categories"));
+
+            String category = categoryObj.getString("name");
+            String categoryIcon = venue.getJSONArray("categories").getJSONObject(0).getJSONObject("icon").getString("prefix")
+                    + '/' + venue.getJSONArray("categories").getJSONObject(0).getJSONObject("icon").getString("suffix");
+
+            int distance = venue.getJSONObject("location").getInt("distance");
+            double lat = venue.getJSONObject("location").getDouble("lat");
+            double lng = venue.getJSONObject("location").getDouble("lng");
+
+            venueList.add(new Venue(name, category, categoryIcon, distance, lat, lng));
+
+        }
+
+        Log.i("JSON", "venues: " + venueList);
         return venueList;
 
 
