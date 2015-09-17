@@ -44,13 +44,15 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
 
             String name = venue.getString("name");
 
-            JSONObject categoryObj = venue.getJSONArray("categories").getJSONObject(0);
-            Log.i("JSON", name + "category: " + categoryObj);
-            Log.i("JSON", "categories: " + venue.getJSONArray("categories"));
+            String category = "";
+            String categoryIcon = "";
 
-            String category = categoryObj.getString("name");
-            String categoryIcon = venue.getJSONArray("categories").getJSONObject(0).getJSONObject("icon").getString("prefix")
-                    + '/' + venue.getJSONArray("categories").getJSONObject(0).getJSONObject("icon").getString("suffix");
+            if (venue.getJSONArray("categories").length() > 0) {
+                JSONObject categoryObj = venue.getJSONArray("categories").getJSONObject(0);
+                category = categoryObj.getString("name");
+                categoryIcon = categoryObj.getJSONObject("icon").getString("prefix")
+                        + '/' + categoryObj.getJSONObject("icon").getString("suffix");
+            }
 
             int distance = venue.getJSONObject("location").getInt("distance");
             double lat = venue.getJSONObject("location").getDouble("lat");
