@@ -12,6 +12,11 @@
     tools:context=".PlacesActivity">
 
 
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapview"
+        android:layout_width="400dp"
+        android:layout_height="600dp" />
+
 
 </LinearLayout>
 
