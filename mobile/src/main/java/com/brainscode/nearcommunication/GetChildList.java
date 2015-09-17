@@ -27,6 +27,10 @@ class GetChildList extends AsyncTask<String, Void, String> {
     private String currentDateandTime = "20130715";  //yyyymmdd
     String jsonResult;
 
+    public GetChildList(String strm) {
+        this.strm = strm;
+    }
+
     @Override
     protected String doInBackground(String... params) {
         // TODO Auto-generated method stub
