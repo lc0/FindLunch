@@ -17,6 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.brainscode.nearcommunication.PlacesActivity"
+            android:parentActivityName="com.brainscode.nearcommunication.FindLunch" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.brainscode.nearcommunication.FindLunch" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

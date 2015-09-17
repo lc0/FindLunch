@@ -48,15 +48,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/plus_sign_out"/>
+                    android:text="FIND MY LUNCH PLACE"/>
 
-                <Button
-                    android:id="@+id/plus_disconnect_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/plus_disconnect"/>
 
             </LinearLayout>
 
