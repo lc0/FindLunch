@@ -29,6 +29,8 @@ public class NsdHelper {
         //mNsdManager.init(mContext.getMainLooper(), this);
     }
     public void initializeDiscoveryListener() {
+        Log.d(TAG, "initializeDiscoveryListener" + mDiscoveryListener);
+
         mDiscoveryListener = new NsdManager.DiscoveryListener() {
             @Override
             public void onDiscoveryStarted(String regType) {
@@ -89,7 +91,7 @@ public class NsdHelper {
         mRegistrationListener = new NsdManager.RegistrationListener() {
             @Override
             public void onServiceRegistered(NsdServiceInfo NsdServiceInfo) {
-                mService = NsdServiceInfo;
+//                mService = NsdServiceInfo;
                 Log.d(TAG, "nsd Service: " + mServiceName);
                 mServiceName = NsdServiceInfo.getServiceName();
                 Log.d(TAG, "Service registered: " + mServiceName);
