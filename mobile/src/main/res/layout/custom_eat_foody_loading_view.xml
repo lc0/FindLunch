@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/custom_eat_foody_loading_view_one"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp" />
+
+
+    <ImageView
+        android:id="@+id/custom_eat_foody_loading_view_two"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp" />
+
+
+    <ImageView
+        android:id="@+id/custom_eat_foody_loading_view_three"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp" />
+
+
+    <ImageView
+        android:id="@+id/custom_eat_foody_loading_view_four"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp" />
+
+
+    <ImageView
+        android:id="@+id/custom_eat_foody_loading_view_five"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="5dp" />
+
+</LinearLayout>
