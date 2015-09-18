@@ -69,19 +69,19 @@ public class EatFoodLoadingView extends LinearLayout {
                     break;
 
                 case 1:
-                    two.setImageResource(R.drawable.burger);
+                    two.setImageResource(R.drawable.burger_new);
                     break;
 
                 case 2:
-                    three.setImageResource(R.drawable.hotdog);
+                    three.setImageResource(R.drawable.hotdog_new);
                     break;
 
                 case 3:
-                    four.setImageResource(R.drawable.sushi);
+                    four.setImageResource(R.drawable.sushi_new);
                     break;
 
                 case 4:
-                    five.setImageResource(R.drawable.wrap);
+                    five.setImageResource(R.drawable.wrap_new);
                     break;
             }
         }

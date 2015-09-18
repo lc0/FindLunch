@@ -1,6 +1,5 @@
 package com.brainscode.nearcommunication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -23,13 +22,6 @@ import com.google.android.gms.common.SignInButton;
 public class FindLunch extends FragmentActivity {
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
 //    private UserLoginTask mAuthTask = null;
@@ -47,17 +39,12 @@ public class FindLunch extends FragmentActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
-        if(!isLoggedIn()) {
-            LoginFragment newFragment = new LoginFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(android.R.id.content, newFragment);
-            transaction.commit();
-        }else{
-            Intent myIntent = new Intent(this, PlacesActivity.class);
-            startActivity(myIntent);
-        }
-
+        LoginFragment newFragment = new LoginFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(android.R.id.content, newFragment);
+        transaction.commit();
     }
+
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;

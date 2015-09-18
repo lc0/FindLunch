@@ -17,6 +17,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
@@ -67,7 +68,8 @@ public class SomeFragment extends Fragment {
 
                 map.clear();
                 MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.fork));
-                map.addMarker(markerOptions.position(new LatLng(venue.lat, venue.lng)).title(venue.name).snippet("Snippet"));
+                Marker marker = map.addMarker(markerOptions.position(new LatLng(venue.lat, venue.lng)).title(venue.name).snippet("Snippet"));
+                marker.showInfoWindow();
 
             }
         });
