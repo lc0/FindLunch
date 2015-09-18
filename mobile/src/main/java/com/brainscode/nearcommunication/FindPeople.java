@@ -1,12 +1,14 @@
 package com.brainscode.nearcommunication;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.nsd.NsdServiceInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.app.Activity;
 import android.net.nsd.NsdServiceInfo;
@@ -31,9 +33,36 @@ public class FindPeople extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        mStatusView = (TextView) findViewById(R.id.status);
+
+        Button advertiseButton = (Button) container.findViewById(R.id.advertise_btn);
+        advertiseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Register service
+                if(mConnection.getLocalPort() > -1) {
+                    mNsdHelper.registerService(mConnection.getLocalPort());
+                    Log.d(TAG, "Server is here.");
+                } else {
+                    Log.d(TAG, "ServerSocket isn't bound.");
+                }
+            }
+        });
+
+
+        Button discoverButton = (Button) container.findViewById(R.id.discover_btn);
+        discoverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mNsdHelper.discoverServices();
+            }
+        });
+
+
+
+
+        mStatusView = (TextView) container.findViewById(R.id.status);
         mUpdateHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -42,20 +71,11 @@ public class FindPeople extends Fragment {
             }
         };
 
+        return view;
+
     }
 
 
-    public void clickAdvertise(View v) {
-        // Register service
-        if(mConnection.getLocalPort() > -1) {
-            mNsdHelper.registerService(mConnection.getLocalPort());
-        } else {
-            Log.d(TAG, "ServerSocket isn't bound.");
-        }
-    }
-    public void clickDiscover(View v) {
-        mNsdHelper.discoverServices();
-    }
     public void clickConnect(View v) {
         NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
         if (service != null) {
@@ -67,7 +87,7 @@ public class FindPeople extends Fragment {
         }
     }
     public void clickSend(View v) {
-        EditText messageView = (EditText) this.findViewById(R.id.chatInput);
+        EditText messageView = (EditText) v.findViewById(R.id.chatInput);
         if (messageView != null) {
             String messageString = messageView.getText().toString();
             if (!messageString.isEmpty()) {
@@ -79,16 +99,17 @@ public class FindPeople extends Fragment {
     public void addChatLine(String line) {
         mStatusView.append("\n" + line);
     }
+
     @Override
-    protected void onStart() {
+    public void onStart() {
         Log.d(TAG, "Starting.");
-        mConnection = new ChatConnection(mUpdateHandler);
-        mNsdHelper = new NsdHelper(this);
+        mConnection = new LunchConnection(mUpdateHandler);
+        mNsdHelper = new NsdHelper(getActivity().getApplicationContext());
         mNsdHelper.initializeNsd();
         super.onStart();
     }
     @Override
-    protected void onPause() {
+    public void onPause() {
         Log.d(TAG, "Pausing.");
         if (mNsdHelper != null) {
             mNsdHelper.stopDiscovery();
@@ -96,7 +117,7 @@ public class FindPeople extends Fragment {
         super.onPause();
     }
     @Override
-    protected void onResume() {
+    public void onResume() {
         Log.d(TAG, "Resuming.");
         super.onResume();
         if (mNsdHelper != null) {
@@ -112,7 +133,7 @@ public class FindPeople extends Fragment {
     // our connection goes away when we're killed, so this step is
     // optional (but recommended).
     @Override
-    protected void onStop() {
+    public void onStop() {
         Log.d(TAG, "Being stopped.");
         mNsdHelper.tearDown();
         mConnection.tearDown();

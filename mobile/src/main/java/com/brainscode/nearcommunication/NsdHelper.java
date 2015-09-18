@@ -19,6 +19,7 @@ public class NsdHelper {
     public static final String TAG = "NsdHelper";
     public String mServiceName = "nsdLunchme";
     NsdServiceInfo mService;
+
     public NsdHelper(Context context) {
         mContext = context;
         mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
