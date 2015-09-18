@@ -23,7 +23,10 @@ import java.util.Random;
 
 
 class FoursquareLocations extends AsyncTask<String, Void, String> {
-
+    
+    public void setStrm(String strm) {
+        this.strm = strm;
+    }
 
     private String strm = "22.81,89.55";
     private String client_id = "ZLC3BYW2IPZX0UBBLIVCJJYJLDA5HTN5NQ0011SMU5CHPG3K";
@@ -88,7 +91,7 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
         final HttpParams httpParams = httpclient.getParams();
         HttpConnectionParams.setConnectionTimeout(httpParams, 30000);
         HttpConnectionParams.setSoTimeout(httpParams, 30000);
-        HttpGet httppost = new HttpGet("https://api.foursquare.com/v2/venues/search?intent=checkin&ll="+strm+"&categoryId="+category+"&client_id="+client_id+"&client_secret="+client_secret+"&v="+currentDateandTime); //
+        HttpGet httppost = new HttpGet("https://api.foursquare.com/v2/venues/search?intent=checkin&ll="+strm+"&radius=300&categoryId="+category+"&client_id="+client_id+"&client_secret="+client_secret+"&v="+currentDateandTime); //
 
         try{
 
