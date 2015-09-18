@@ -39,9 +39,10 @@ public class NsdHelper {
                 Log.d(TAG, "Service discovery success" + service);
                 if (!service.getServiceType().equals(SERVICE_TYPE)) {
                     Log.d(TAG, "Unknown Service Type: " + service.getServiceType());
-                } else if (service.getServiceName().equals(mServiceName)) {
-                    Log.d(TAG, "Same machine: " + mServiceName);
+//                } else if (service.getServiceName().equals(mServiceName)) {
+//                    Log.d(TAG, "Bros: Same machine: " + mServiceName + service);
                 } else if (service.getServiceName().contains(mServiceName)){
+                    Log.d(TAG, "Bros: somebody is here: " + mServiceName + service);
                     mNsdManager.resolveService(service, mResolveListener);
                 }
             }
@@ -68,6 +69,7 @@ public class NsdHelper {
     }
     public void initializeResolveListener() {
         mResolveListener = new NsdManager.ResolveListener() {
+
             @Override
             public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode) {
                 Log.e(TAG, "Resolve failed" + errorCode);
@@ -87,6 +89,8 @@ public class NsdHelper {
         mRegistrationListener = new NsdManager.RegistrationListener() {
             @Override
             public void onServiceRegistered(NsdServiceInfo NsdServiceInfo) {
+                mService = NsdServiceInfo;
+                Log.d(TAG, "nsd Service: " + mServiceName);
                 mServiceName = NsdServiceInfo.getServiceName();
                 Log.d(TAG, "Service registered: " + mServiceName);
             }

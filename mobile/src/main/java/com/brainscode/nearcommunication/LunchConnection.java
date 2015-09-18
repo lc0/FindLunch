@@ -106,7 +106,7 @@ public class LunchConnection {
                     mServerSocket = new ServerSocket(0);
                     setLocalPort(mServerSocket.getLocalPort());
                     while (!Thread.currentThread().isInterrupted()) {
-                        Log.d(TAG, "ServerSocket Created, awaiting connection");
+                        Log.d(TAG, "ServerSocket Created, awaiting connection" + mServerSocket);
                         setSocket(mServerSocket.accept());
                         Log.d(TAG, "Connected.");
                         if (mLunchClient == null) {

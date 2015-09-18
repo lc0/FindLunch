@@ -59,7 +59,22 @@ public class FindPeople extends Fragment {
             }
         });
 
+        Button connectButton = (Button) container.findViewById(R.id.connect_btn);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
+                Log.d("Connect", "beforeconnect." + service);
 
+                if (service != null) {
+                    Log.d(TAG, "Connecting.");
+                    mConnection.connectToServer(service.getHost(),
+                            service.getPort());
+                } else {
+                    Log.d(TAG, "No service to connect to!");
+                }
+            }
+        });
 
 
         mStatusView = (TextView) container.findViewById(R.id.status);
@@ -75,17 +90,6 @@ public class FindPeople extends Fragment {
 
     }
 
-
-    public void clickConnect(View v) {
-        NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
-        if (service != null) {
-            Log.d(TAG, "Connecting.");
-            mConnection.connectToServer(service.getHost(),
-                    service.getPort());
-        } else {
-            Log.d(TAG, "No service to connect to!");
-        }
-    }
     public void clickSend(View v) {
         EditText messageView = (EditText) v.findViewById(R.id.chatInput);
         if (messageView != null) {
@@ -103,6 +107,9 @@ public class FindPeople extends Fragment {
     @Override
     public void onStart() {
         Log.d(TAG, "Starting.");
+
+        Log.d(TAG, "STAAAART");
+
         mConnection = new LunchConnection(mUpdateHandler);
         mNsdHelper = new NsdHelper(getActivity().getApplicationContext());
         mNsdHelper.initializeNsd();

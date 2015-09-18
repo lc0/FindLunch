@@ -15,7 +15,6 @@
             android:id="@+id/advertise_btn"
             android:layout_width="96dp"
             android:layout_height="64dp"
-            android:onClick="clickAdvertise"
             android:text="clickAdvertise" />
         <Button
             android:id="@+id/discover_btn"
@@ -26,7 +25,6 @@
             android:id="@+id/connect_btn"
             android:layout_width="96dp"
             android:layout_height="64dp"
-            android:onClick="clickConnect"
             android:text="clickConnect" />
     </LinearLayout>
     <TextView
