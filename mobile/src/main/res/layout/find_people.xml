@@ -31,10 +31,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        
+
     <EditText
         android:id="@+id/chatInput"
-        android:background="#FFFBED"
+        android:background="#e9dcb0"
         android:textColor="@color/common_signin_btn_light_text_default"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
@@ -43,11 +43,11 @@
         android:singleLine="true" />
 
         <Button
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:id="@+id/send_btn"
-            android:layout_width="96dp"
-            android:layout_height="64dp"
-            android:onClick="clickSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="Send"
             android:text="Send" />
 
     </LinearLayout>

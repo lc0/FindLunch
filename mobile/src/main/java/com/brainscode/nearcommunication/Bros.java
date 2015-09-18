@@ -44,8 +44,13 @@ public class Bros {
             if (((Bros) o).getId() != this.id){
                 return false;
             }
+            if (((Bros) o).getName() != this.name){
+                return false;
+            }
+        }else{
+            return false;
         }
-        return super.equals(o);
+        return true;
     }
 
     boolean upforLunch;

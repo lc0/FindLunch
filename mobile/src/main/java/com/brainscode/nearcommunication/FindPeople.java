@@ -18,10 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener {
 
@@ -72,10 +69,8 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         NsdHelper.gimmeBrosListener = new NsdHelper.gimmeBrosListener() {
             @Override
             public void onBroFound(Bros bro) {
-                if(!bros.contains(bro)) {
-                    bros.add(bro);
-                    showBros();
-                }
+                        bros.add(bro);
+                        showBros();
             }
         };
 
@@ -233,10 +228,9 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
 
     @Override
     public void onBroFound(Bros bro) {
-        if(!bros.contains(bro)) {
-            bros.add(bro);
-            showBros();
-        }
+                bros.add(bro);
+                showBros();
+
     }
 
 }
