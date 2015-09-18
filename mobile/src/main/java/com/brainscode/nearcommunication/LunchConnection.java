@@ -39,6 +39,7 @@ public class LunchConnection {
         mLunchClient = new LunchClient(address, port);
     }
     public void sendMessage(String msg) {
+        Log.e(TAG, "talking to Client: " + mLunchClient);
         if (mLunchClient != null) {
             mLunchClient.sendMessage(msg);
         }
@@ -50,7 +51,7 @@ public class LunchConnection {
         mPort = port;
     }
     public synchronized void updateMessages(String msg, boolean local) {
-        Log.e(TAG, "Updating message: " + msg);
+        Log.e(TAG, "Talking Updating message: " + msg);
         if (local) {
             msg = "me: " + msg;
         } else {
@@ -146,23 +147,23 @@ public class LunchConnection {
                 try {
                     if (getSocket() == null) {
                         setSocket(new Socket(mAddress, PORT));
-                        Log.d(CLIENT_TAG, "Client-side socket initialized.");
+                        Log.d(CLIENT_TAG, "talking: Client-side socket initialized.");
                     } else {
-                        Log.d(CLIENT_TAG, "Socket already initialized. skipping!");
+                        Log.d(CLIENT_TAG, "talking: Socket already initialized. skipping!");
                     }
                     mRecThread = new Thread(new ReceivingThread());
                     mRecThread.start();
                 } catch (UnknownHostException e) {
-                    Log.d(CLIENT_TAG, "Initializing socket failed, UHE", e);
+                    Log.d(CLIENT_TAG, "talking: Initializing socket failed, UHE", e);
                 } catch (IOException e) {
-                    Log.d(CLIENT_TAG, "Initializing socket failed, IOE.", e);
+                    Log.d(CLIENT_TAG, "talking: Initializing socket failed, IOE.", e);
                 }
                 while (true) {
                     try {
                         String msg = mMessageQueue.take();
                         sendMessage(msg);
                     } catch (InterruptedException ie) {
-                        Log.d(CLIENT_TAG, "Message sending loop interrupted, exiting");
+                        Log.d(CLIENT_TAG, "talking: Message sending loop interrupted, exiting");
                     }
                 }
             }
@@ -178,7 +179,7 @@ public class LunchConnection {
                         String messageStr = null;
                         messageStr = input.readLine();
                         if (messageStr != null) {
-                            Log.d(CLIENT_TAG, "Read from the stream: " + messageStr);
+                            Log.d(CLIENT_TAG, "talking: Read from the stream: " + messageStr);
                             updateMessages(messageStr, false);
                         } else {
                             Log.d(CLIENT_TAG, "The nulls! The nulls!");
@@ -200,26 +201,31 @@ public class LunchConnection {
         }
         public void sendMessage(String msg) {
             try {
+                Log.d(CLIENT_TAG, "Talking: before sending");
+
                 Socket socket = getSocket();
                 if (socket == null) {
-                    Log.d(CLIENT_TAG, "Socket is null, wtf?");
+                    Log.d(CLIENT_TAG, "talking: Socket is null, wtf?");
                 } else if (socket.getOutputStream() == null) {
-                    Log.d(CLIENT_TAG, "Socket output stream is null, wtf?");
+                    Log.d(CLIENT_TAG, "talking: Socket output stream is null, wtf?");
                 }
                 PrintWriter out = new PrintWriter(
                         new BufferedWriter(
                                 new OutputStreamWriter(getSocket().getOutputStream())), true);
                 out.println(msg);
                 out.flush();
+
+                Log.d(CLIENT_TAG, "Talking: sending message tcp");
+
                 updateMessages(msg, true);
             } catch (UnknownHostException e) {
-                Log.d(CLIENT_TAG, "Unknown Host", e);
+                Log.d(CLIENT_TAG, "talking: Unknown Host", e);
             } catch (IOException e) {
-                Log.d(CLIENT_TAG, "I/O Exception", e);
+                Log.d(CLIENT_TAG, "talking: I/O Exception", e);
             } catch (Exception e) {
-                Log.d(CLIENT_TAG, "Error3", e);
+                Log.d(CLIENT_TAG, "talking: Error3", e);
             }
-            Log.d(CLIENT_TAG, "Client sent message: " + msg);
+            Log.d(CLIENT_TAG, "talking: Client sent message: " + msg);
         }
     }
 }

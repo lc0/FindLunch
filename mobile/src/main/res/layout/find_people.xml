@@ -15,9 +15,26 @@
     <ListView
         android:id="@+id/broContainer"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="200dp"
         android:orientation="vertical">
         </ListView>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="#fffbed"
+        android:textColor="@color/common_signin_btn_light_text_default"
+        android:focusable="true" />
+
+    <EditText
+        android:id="@+id/chatInput"
+        android:background="#FFFBED"
+        android:textColor="@color/common_signin_btn_light_text_default"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:inputType="text"
+        android:singleLine="true" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -46,19 +63,7 @@
             android:onClick="clickSend"
             android:text="clickSend" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:focusable="true" />
-    <EditText
-        android:id="@+id/chatInput"
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:inputType="text"
-        android:visibility="gone"
-        android:singleLine="true" />
+
 
 
 </LinearLayout>

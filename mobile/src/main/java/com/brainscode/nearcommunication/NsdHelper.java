@@ -101,7 +101,10 @@ public class NsdHelper {
                     Log.d(TAG, "Same IP.");
                     return;
                 }
+
+
                 mService = serviceInfo;
+                Log.d(TAG, "Resolve Succeeded - new mService - " + mService);
             }
         };
     }

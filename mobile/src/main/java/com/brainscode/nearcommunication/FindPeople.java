@@ -18,7 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener {
 
@@ -64,7 +67,7 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
         NsdHelper.gimmeBrosListener = new NsdHelper.gimmeBrosListener() {
             @Override
@@ -111,11 +114,29 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
                 Log.d("Connect", "beforeconnect." + service);
 
                 if (service != null) {
-                    Log.d(TAG, "Connecting.");
-                    mConnection.connectToServer(service.getHost(),
-                            service.getPort());
+                    Log.d(TAG, "talking Connecting.");
+                    mConnection.connectToServer(service.getHost(), service.getPort());
                 } else {
                     Log.d(TAG, "No service to connect to!");
+                }
+            }
+        });
+
+
+        Button sendButton = (Button) container.findViewById(R.id.send_btn);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Connect", "talking sending here");
+                EditText messageView = (EditText) container.findViewById(R.id.chatInput);
+                if (messageView != null) {
+
+                    String messageString = messageView.getText().toString();
+                    if (!messageString.isEmpty()) {
+                        mConnection.sendMessage(messageString);
+                        Log.d("Connect", "talking sending inside" + messageString);
+                    }
+                    messageView.setText("");
                 }
             }
         });
@@ -125,10 +146,14 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         mUpdateHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                Log.d("Connect", "talking adding line to the chatline");
+
                 String chatLine = msg.getData().getString("msg");
                 addChatLine(chatLine);
             }
         };
+
+
 
         return view;
 
