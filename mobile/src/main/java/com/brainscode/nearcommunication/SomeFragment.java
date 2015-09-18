@@ -2,10 +2,12 @@ package com.brainscode.nearcommunication;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -52,6 +54,19 @@ public class SomeFragment extends Fragment {
         // Updates the location and zoom of the MapView
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coords, 15);
         map.animateCamera(cameraUpdate);
+
+
+        Button people = (Button) v.findViewById(R.id.people);
+        people.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FindPeople newFragment = new FindPeople();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(android.R.id.content, newFragment);
+                transaction.commit();
+            }
+        });
 
         return v;
     }

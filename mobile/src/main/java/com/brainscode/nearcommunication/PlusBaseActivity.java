@@ -79,6 +79,9 @@ public abstract class PlusBaseActivity extends Activity
                         Scopes.PLUS_ME).build();
     }
 
+    public boolean isConnected(){
+        return  mPlusClient.isConnected();
+    }
     /**
      * Try to sign in the user.
      */

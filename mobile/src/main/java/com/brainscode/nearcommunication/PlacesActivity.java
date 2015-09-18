@@ -7,7 +7,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 public class PlacesActivity extends Activity {
 
@@ -18,7 +19,6 @@ public class PlacesActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_places);
-        Log.i("HELLO", "FRAGMENT OU YEAH");
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -29,8 +29,6 @@ public class PlacesActivity extends Activity {
         double longitude = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
 
         String coordinates = Double.toString(latitude) +","+ Double.toString(longitude);
-        Log.i("JSON", "COORDINATES: " + coordinates);
-
         new FoursquareLocations(coordinates).execute();
 
         SomeFragment newFragment = new SomeFragment(latitude, longitude);
