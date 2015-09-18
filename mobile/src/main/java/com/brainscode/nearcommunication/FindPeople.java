@@ -20,6 +20,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class FindPeople extends Fragment {
 
     NsdHelper mNsdHelper;
@@ -31,7 +34,7 @@ public class FindPeople extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
@@ -67,11 +70,29 @@ public class FindPeople extends Fragment {
                 Log.d("Connect", "beforeconnect." + service);
 
                 if (service != null) {
-                    Log.d(TAG, "Connecting.");
-                    mConnection.connectToServer(service.getHost(),
-                            service.getPort());
+                    Log.d(TAG, "talking Connecting.");
+                    mConnection.connectToServer(service.getHost(), service.getPort());
                 } else {
                     Log.d(TAG, "No service to connect to!");
+                }
+            }
+        });
+
+
+        Button sendButton = (Button) container.findViewById(R.id.send_btn);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Connect", "talking sending here");
+                EditText messageView = (EditText) container.findViewById(R.id.chatInput);
+                if (messageView != null) {
+
+                    String messageString = messageView.getText().toString();
+                    if (!messageString.isEmpty()) {
+                        mConnection.sendMessage(messageString);
+                        Log.d("Connect", "talking sending inside" + messageString);
+                    }
+                    messageView.setText("");
                 }
             }
         });
@@ -81,25 +102,19 @@ public class FindPeople extends Fragment {
         mUpdateHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                Log.d("Connect", "talking adding line to the chatline");
+
                 String chatLine = msg.getData().getString("msg");
                 addChatLine(chatLine);
             }
         };
 
+
+
         return view;
 
     }
 
-    public void clickSend(View v) {
-        EditText messageView = (EditText) v.findViewById(R.id.chatInput);
-        if (messageView != null) {
-            String messageString = messageView.getText().toString();
-            if (!messageString.isEmpty()) {
-                mConnection.sendMessage(messageString);
-            }
-            messageView.setText("");
-        }
-    }
     public void addChatLine(String line) {
         mStatusView.append("\n" + line);
     }

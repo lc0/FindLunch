@@ -78,12 +78,13 @@ public class NsdHelper {
             }
             @Override
             public void onServiceResolved(NsdServiceInfo serviceInfo) {
-                Log.e(TAG, "Resolve Succeeded. " + serviceInfo);
-                if (serviceInfo.getServiceName().equals(mServiceName)) {
-                    Log.d(TAG, "Same IP.");
-                    return;
-                }
+                Log.d(TAG, "Resolve Succeeded. " + serviceInfo);
+//                if (serviceInfo.getServiceName().equals(mServiceName)) {
+//                    Log.d(TAG, "Same IP.");
+//                    return;
+//                }
                 mService = serviceInfo;
+                Log.d(TAG, "Resolve Succeeded - new mService - " + mService);
             }
         };
     }
