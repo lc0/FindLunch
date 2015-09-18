@@ -19,15 +19,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 class FoursquareLocations extends AsyncTask<String, Void, String> {
+
 
     private String strm = "22.81,89.55";
     private String client_id = "ZLC3BYW2IPZX0UBBLIVCJJYJLDA5HTN5NQ0011SMU5CHPG3K";
     private String client_secret = "RDNVCMA10IF4GPAZRMPKOCTQVCL4OLF2BQEJFSSSKLEGBBPE";
     private String currentDateandTime = "20130715";  //yyyymmdd
+    private String category = "4d4b7105d754a06374d81259";
     String jsonResult;
+
+    static ArrayList<Venue> venueList = new ArrayList<Venue>();
 
     public FoursquareLocations(String strm) {
         this.strm = strm;
@@ -35,7 +40,6 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
 
     private ArrayList<Venue> parse(String str) throws Exception {
         JSONObject jObject = new JSONObject(str);
-        ArrayList<Venue> venueList = new ArrayList<Venue>();
 
         JSONArray venues = jObject.getJSONObject("response").getJSONArray("venues");
 
@@ -67,6 +71,15 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
 
 
     }
+    private static Random randomGenerator = new Random();
+
+    public static Venue getRandomVenue(){
+        if(venueList!=null) {
+            int index = randomGenerator.nextInt(venueList.size());
+            return venueList.get(index);
+        }
+        return null;
+    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -75,7 +88,7 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
         final HttpParams httpParams = httpclient.getParams();
         HttpConnectionParams.setConnectionTimeout(httpParams, 30000);
         HttpConnectionParams.setSoTimeout(httpParams, 30000);
-        HttpGet httppost = new HttpGet("https://api.foursquare.com/v2/venues/search?intent=checkin&ll="+strm+"&client_id="+client_id+"&client_secret="+client_secret+"&v="+currentDateandTime); //
+        HttpGet httppost = new HttpGet("https://api.foursquare.com/v2/venues/search?intent=checkin&ll="+strm+"&categoryId="+category+"&client_id="+client_id+"&client_secret="+client_secret+"&v="+currentDateandTime); //
 
         try{
 

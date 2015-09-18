@@ -61,7 +61,6 @@ public class FindLunch extends PlusBaseActivity implements LoaderCallbacks<Curso
     private View mProgressView;
     private View mEmailLoginFormView;
     private SignInButton mPlusSignInButton;
-    private View mSignOutButtons;
     private View mLoginFormView;
 
     @Override
@@ -114,7 +113,6 @@ public class FindLunch extends PlusBaseActivity implements LoaderCallbacks<Curso
             mLoginFormView = findViewById(R.id.login_form);
             mProgressView = findViewById(R.id.login_progress);
             mEmailLoginFormView = findViewById(R.id.email_login_form);
-            mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
         }
     }
 
@@ -223,16 +221,11 @@ public class FindLunch extends PlusBaseActivity implements LoaderCallbacks<Curso
 
     @Override
     protected void onPlusClientSignIn() {
-        //Set up sign out and disconnect buttons.
-        Button signOutButton = (Button) findViewById(R.id.plus_sign_out_button);
-        signOutButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Log.i("HELLO", "onPlusClientSignIn");
 
-                Intent myIntent = new Intent(FindLunch.this, PlacesActivity.class);
-                FindLunch.this.startActivity(myIntent);
-            }
-        });
+        Intent myIntent = new Intent(FindLunch.this, PlacesActivity.class);
+        FindLunch.this.startActivity(myIntent);
+
     }
 
     @Override
@@ -253,7 +246,6 @@ public class FindLunch extends PlusBaseActivity implements LoaderCallbacks<Curso
         //TODO: Update this logic to also handle the user logged in by email.
         boolean connected = getPlusClient().isConnected();
 
-        mSignOutButtons.setVisibility(connected ? View.VISIBLE : View.GONE);
         mPlusSignInButton.setVisibility(connected ? View.GONE : View.VISIBLE);
         mEmailLoginFormView.setVisibility(connected ? View.GONE : View.VISIBLE);
     }

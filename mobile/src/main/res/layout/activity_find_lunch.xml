@@ -36,24 +36,6 @@
                 android:layout_marginBottom="32dp"/>
 
             <LinearLayout
-                android:id="@+id/plus_sign_out_buttons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/plus_sign_out_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="FIND MY LUNCH PLACE"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

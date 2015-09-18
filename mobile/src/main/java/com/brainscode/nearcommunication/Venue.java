@@ -6,7 +6,7 @@ package com.brainscode.nearcommunication;
 public class Venue {
     String name;
     String category;
-    String categoryIcon;
+    private String categoryIcon;
 
     int distance;
     double lat;
@@ -15,9 +15,17 @@ public class Venue {
     public Venue(String name, String category, String categoryIcon, int distance, double lat, double lng) {
         this.name = name;
         this.category = category;
-        this.categoryIcon = categoryIcon;
+        this.setCategoryIcon(categoryIcon);
         this.distance = distance;
         this.lat = lat;
         this.lng = lng;
+    }
+
+    public String getCategoryIcon() {
+        return categoryIcon;
+    }
+
+    public void setCategoryIcon(String categoryIcon) {
+        this.categoryIcon = categoryIcon;
     }
 }

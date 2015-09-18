@@ -8,13 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by platerosanchezm on 17/09/15.
@@ -55,6 +58,19 @@ public class SomeFragment extends Fragment {
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coords, 15);
         map.animateCamera(cameraUpdate);
 
+
+        ImageButton generateVenues = (ImageButton) v.findViewById(R.id.generate_venue);
+        generateVenues.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Venue venue = FoursquareLocations.getRandomVenue();
+
+                map.clear();
+                MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.fork));
+                map.addMarker(markerOptions.position(new LatLng(venue.lat, venue.lng)).title(venue.name).snippet("Snippet"));
+
+            }
+        });
 
         Button people = (Button) v.findViewById(R.id.people);
         people.setOnClickListener(new View.OnClickListener() {
