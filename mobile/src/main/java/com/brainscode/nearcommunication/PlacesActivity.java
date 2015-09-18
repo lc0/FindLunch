@@ -25,8 +25,14 @@ public class PlacesActivity extends Activity {
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) 1,
                 (float) 1, mLocationListener);
 
-        double latitude = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude();
-        double longitude = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
+        double latitude = 48.1506177;
+        double longitude = 11.5470593;
+        if (mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
+            latitude = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude();
+            longitude = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
+        }
+
+
 
         String coordinates = Double.toString(latitude) +","+ Double.toString(longitude);
         new FoursquareLocations(coordinates).execute();
