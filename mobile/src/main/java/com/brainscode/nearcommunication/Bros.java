@@ -4,6 +4,22 @@ package com.brainscode.nearcommunication;
  * Created by platerosanchezm on 18/09/15.
  */
 public class Bros {
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public boolean isUpforLunch() {
+        return upforLunch;
+    }
+
     String id;
     String name;
 
@@ -22,6 +38,15 @@ public class Bros {
         this.upforLunch = upforLunch;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Bros) {
+            if (((Bros) o).getId() != this.id){
+                return false;
+            }
+        }
+        return super.equals(o);
+    }
 
     boolean upforLunch;
 }
