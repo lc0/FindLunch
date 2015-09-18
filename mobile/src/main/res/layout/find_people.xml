@@ -19,11 +19,17 @@
         android:orientation="vertical">
         </ListView>
 
+    <LinearLayout
+        android:background="#C6E2FF"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/status"
+        android:layout_margin="4dp"
+        android:background="@android:color/white"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:background="#fffbed"
         android:textColor="@color/common_signin_btn_light_text_default"
         android:focusable="true" />
 
@@ -34,7 +40,7 @@
 
     <EditText
         android:id="@+id/chatInput"
-        android:background="#e9dcb0"
+        android:background="@android:color/white"
         android:textColor="@color/common_signin_btn_light_text_default"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
@@ -50,6 +56,7 @@
             android:onClick="Send"
             android:text="Send" />
 
+    </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
