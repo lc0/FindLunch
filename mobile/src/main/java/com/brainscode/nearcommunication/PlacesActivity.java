@@ -66,4 +66,5 @@ public class PlacesActivity extends Activity {
         }
     };
 
+
 }

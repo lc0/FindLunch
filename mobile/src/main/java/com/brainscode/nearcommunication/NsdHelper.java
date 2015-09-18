@@ -54,10 +54,8 @@ public class NsdHelper {
 //                } else if (service.getServiceName().equals(mServiceName)) {
 //                    Log.d(TAG, "Bros: Same machine: " + mServiceName + service);
                 } else if (service.getServiceName().contains(mServiceName)){
-                    Bros bro = new Bros(mServiceName, "Dev", true);
-                    if(gimmeBrosListener!=null){
-                        gimmeBrosListener.onBroFound(bro);
-                    }
+
+
                     Log.d(TAG, "Bros: somebody is here: " + mServiceName + service);
                     mNsdManager.resolveService(service, mResolveListener);
                 }
@@ -94,6 +92,12 @@ public class NsdHelper {
             public void onServiceResolved(NsdServiceInfo serviceInfo) {
                 Log.e(TAG, "Resolve Succeeded. " + serviceInfo);
                 if (serviceInfo.getServiceName().equals(mServiceName)) {
+
+                    Bros bro = new Bros(mServiceName, "Dev", true, serviceInfo.getHost().toString());
+                    if(gimmeBrosListener!=null){
+                        gimmeBrosListener.onBroFound(bro);
+                    }
+
                     Log.d(TAG, "Same IP.");
                     return;
                 }

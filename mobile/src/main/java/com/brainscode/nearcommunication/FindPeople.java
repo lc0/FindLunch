@@ -213,4 +213,5 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
             showBros();
         }
     }
+
 }
