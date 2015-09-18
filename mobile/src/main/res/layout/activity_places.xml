@@ -7,7 +7,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="#E8E8E8"
+    android:background="#FFFFFF"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".PlacesActivity">
 
@@ -25,16 +25,22 @@
     <Button
         android:id="@+id/people"
         android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/people"
+        android:text="Find Me People!"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="match_parent" />
 
-    <ImageButton
+    <Button
         android:layout_margin="12dp"
         android:id="@+id/generate_venue"
-        android:background="@drawable/feedme"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/marker"
+        android:text="Find Me Lunch!"
+        android:singleLine="true"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="match_parent" />
 
     </LinearLayout>
 

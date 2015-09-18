@@ -3,8 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/common_signin_btn_default_background"
+    android:background="#FFFFFF"
     android:layout_height="match_parent">
+
+    <TextView
+        android:layout_margin="12dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:text="My Crew!"
+        android:layout_height="wrap_content" />
+    <ListView
+        android:id="@+id/broContainer"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical">
+        </ListView>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,23 +39,26 @@
             android:layout_width="96dp"
             android:layout_height="64dp"
             android:text="clickConnect" />
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="96dp"
+            android:layout_height="64dp"
+            android:onClick="clickSend"
+            android:text="clickSend" />
     </LinearLayout>
     <TextView
         android:id="@+id/status"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
+        android:visibility="gone"
         android:focusable="true" />
     <EditText
         android:id="@+id/chatInput"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:inputType="text"
+        android:visibility="gone"
         android:singleLine="true" />
-    <Button
-        android:id="@+id/send_btn"
-        android:layout_width="96dp"
-        android:layout_height="64dp"
-        android:onClick="clickSend"
-        android:text="clickSend" />
+
 
 </LinearLayout>

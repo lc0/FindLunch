@@ -20,6 +20,15 @@ public class NsdHelper {
     public String mServiceName = "nsdLunchme";
     NsdServiceInfo mService;
 
+    public void setGimmeBrosListener(NsdHelper.gimmeBrosListener gimmeBrosListener) {
+        this.gimmeBrosListener = gimmeBrosListener;
+    }
+
+    public static gimmeBrosListener gimmeBrosListener;
+
+    public interface gimmeBrosListener{
+        void onBroFound(Bros bro);
+    }
     public NsdHelper(Context context) {
         mContext = context;
         mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
@@ -38,12 +47,17 @@ public class NsdHelper {
             }
             @Override
             public void onServiceFound(NsdServiceInfo service) {
+
                 Log.d(TAG, "Service discovery success" + service);
                 if (!service.getServiceType().equals(SERVICE_TYPE)) {
                     Log.d(TAG, "Unknown Service Type: " + service.getServiceType());
 //                } else if (service.getServiceName().equals(mServiceName)) {
 //                    Log.d(TAG, "Bros: Same machine: " + mServiceName + service);
                 } else if (service.getServiceName().contains(mServiceName)){
+                    Bros bro = new Bros(mServiceName, "Dev", true);
+                    if(gimmeBrosListener!=null){
+                        gimmeBrosListener.onBroFound(bro);
+                    }
                     Log.d(TAG, "Bros: somebody is here: " + mServiceName + service);
                     mNsdManager.resolveService(service, mResolveListener);
                 }

@@ -1,47 +1,91 @@
 package com.brainscode.nearcommunication;
 
 import android.app.Fragment;
-import android.content.Intent;
-import android.net.nsd.NsdServiceInfo;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.app.Activity;
+import android.content.Context;
 import android.net.nsd.NsdServiceInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class FindPeople extends Fragment {
+import java.util.ArrayList;
 
+public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener {
+
+    ArrayList<Bros> bros = new ArrayList<>();
     NsdHelper mNsdHelper;
     private TextView mStatusView;
     private Handler mUpdateHandler;
     public static final String TAG = "nsdLunchme";
     LunchConnection mConnection;
+    ListView brosLL;
 
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return bros.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return bros.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View rowView = inflater.inflate(R.layout.bro_list_element, parent, false);
+            TextView name = (TextView) rowView.findViewById(R.id.name);
+            TextView up = (TextView) rowView.findViewById(R.id.upForIt);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.photo);
+
+            name.setText(bros.get(position).name);
+            up.setText("Hell YEAH");
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.cook));
+
+            return rowView;
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
+        NsdHelper.gimmeBrosListener = new NsdHelper.gimmeBrosListener() {
+            @Override
+            public void onBroFound(Bros bro) {
+                if(!bros.contains(bro)) {
+                    bros.add(bro);
+                    showBros();
+                }
+            }
+        };
+
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-
+        brosLL = (ListView) container.findViewById(R.id.broContainer);
+        brosLL.setAdapter(adapter);
         Button advertiseButton = (Button) container.findViewById(R.id.advertise_btn);
         advertiseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Register service
-                if(mConnection.getLocalPort() > -1) {
+                if (mConnection.getLocalPort() > -1) {
                     mNsdHelper.registerService(mConnection.getLocalPort());
                     Log.d(TAG, "Server is here.");
                 } else {
@@ -90,6 +134,15 @@ public class FindPeople extends Fragment {
 
     }
 
+    public void showBros() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                brosLL.setAdapter(adapter);
+            }
+        });
+    }
+
     public void clickSend(View v) {
         EditText messageView = (EditText) v.findViewById(R.id.chatInput);
         if (messageView != null) {
@@ -100,6 +153,7 @@ public class FindPeople extends Fragment {
             messageView.setText("");
         }
     }
+
     public void addChatLine(String line) {
         mStatusView.append("\n" + line);
     }
@@ -115,6 +169,7 @@ public class FindPeople extends Fragment {
         mNsdHelper.initializeNsd();
         super.onStart();
     }
+
     @Override
     public void onPause() {
         Log.d(TAG, "Pausing.");
@@ -123,6 +178,7 @@ public class FindPeople extends Fragment {
         }
         super.onPause();
     }
+
     @Override
     public void onResume() {
         Log.d(TAG, "Resuming.");
@@ -131,6 +187,7 @@ public class FindPeople extends Fragment {
             mNsdHelper.discoverServices();
         }
     }
+
     // For KitKat and earlier releases, it is necessary to remove the
     // service registration when the application is stopped.  There's
     // no guarantee that the onDestroy() method will be called (we're
@@ -147,5 +204,13 @@ public class FindPeople extends Fragment {
         mNsdHelper = null;
         mConnection = null;
         super.onStop();
+    }
+
+    @Override
+    public void onBroFound(Bros bro) {
+        if(!bros.contains(bro)) {
+            bros.add(bro);
+            showBros();
+        }
     }
 }

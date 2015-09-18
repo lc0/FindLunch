@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -60,7 +59,7 @@ public class SomeFragment extends Fragment {
         map.animateCamera(cameraUpdate);
 
 
-        ImageButton generateVenues = (ImageButton) v.findViewById(R.id.generate_venue);
+        Button generateVenues = (Button) v.findViewById(R.id.generate_venue);
         generateVenues.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
