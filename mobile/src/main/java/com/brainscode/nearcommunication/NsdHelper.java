@@ -129,14 +129,18 @@ public class NsdHelper {
         };
     }
     public void registerService(int port) {
+        Log.d(TAG, "Listening - 0");
         tearDown();  // Cancel any previous registration request
         initializeRegistrationListener();
         NsdServiceInfo serviceInfo  = new NsdServiceInfo();
+        Log.d(TAG, "Listening - 1");
         serviceInfo.setPort(port);
         serviceInfo.setServiceName(mServiceName);
         serviceInfo.setServiceType(SERVICE_TYPE);
+        Log.d(TAG, "Listening - 3");
         mNsdManager.registerService(
                 serviceInfo, NsdManager.PROTOCOL_DNS_SD, mRegistrationListener);
+        Log.d(TAG, "Listening - 4");
     }
     public void discoverServices() {
         stopDiscovery();  // Cancel any existing discovery request

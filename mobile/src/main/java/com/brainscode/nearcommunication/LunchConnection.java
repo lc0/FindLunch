@@ -90,6 +90,7 @@ public class LunchConnection {
             mThread.start();
         }
         public void tearDown() {
+            Log.e(TAG, "Listening: tear down - closing mServerSocket");
             mThread.interrupt();
             try {
                 mServerSocket.close();
@@ -106,9 +107,11 @@ public class LunchConnection {
                     mServerSocket = new ServerSocket(0);
                     setLocalPort(mServerSocket.getLocalPort());
                     while (!Thread.currentThread().isInterrupted()) {
-                        Log.d(TAG, "ServerSocket Created, awaiting connection" + mServerSocket);
+                        Log.d(TAG, "Listening: ServerSocket Created, awaiting connection" + mServerSocket);
+                        Log.d(TAG, "Listening: I'm waiting here: " + mServerSocket.getLocalPort());
+
                         setSocket(mServerSocket.accept());
-                        Log.d(TAG, "Connected.");
+                        Log.d(TAG, "Listening: Connected.");
                         if (mLunchClient == null) {
                             int port = mSocket.getPort();
                             InetAddress address = mSocket.getInetAddress();
@@ -116,7 +119,7 @@ public class LunchConnection {
                         }
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "Error creating ServerSocket: ", e);
+                    Log.e(TAG, "Listening: Error creating ServerSocket: ", e);
                     e.printStackTrace();
                 }
             }

@@ -84,10 +84,12 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         advertiseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "Listening: trying to register a service: " + mConnection.getLocalPort());
+
                 // Register service
                 if (mConnection.getLocalPort() > -1) {
                     mNsdHelper.registerService(mConnection.getLocalPort());
-                    Log.d(TAG, "Server is here.");
+                    Log.d(TAG, "Listening: Server is here.");
                 } else {
                     Log.d(TAG, "ServerSocket isn't bound.");
                 }
@@ -188,23 +190,6 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         }
     }
 
-    // For KitKat and earlier releases, it is necessary to remove the
-    // service registration when the application is stopped.  There's
-    // no guarantee that the onDestroy() method will be called (we're
-    // killable after onStop() returns) and the NSD service won't remove
-    // the registration for us if we're killed.
-    // In L and later, NsdService will automatically unregister us when
-    // our connection goes away when we're killed, so this step is
-    // optional (but recommended).
-    @Override
-    public void onStop() {
-        Log.d(TAG, "Being stopped.");
-        mNsdHelper.tearDown();
-        mConnection.tearDown();
-        mNsdHelper = null;
-        mConnection = null;
-        super.onStop();
-    }
 
     @Override
     public void onBroFound(Bros bro) {
@@ -214,4 +199,14 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         }
     }
 
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "Listening: Being destroyed.");
+//        mNsdHelper.tearDown();
+//        mConnection.tearDown();
+//        mNsdHelper = null;
+//        mConnection = null;
+
+        super.onDestroy();
+    }
 }
