@@ -98,8 +98,8 @@ public class NsdHelper {
                         gimmeBrosListener.onBroFound(bro);
                     }
 
-                    Log.d(TAG, "Same IP.");
-                    return;
+//                    Log.d(TAG, "Same IP.");
+//                    return;
                 }
                 mService = serviceInfo;
             }

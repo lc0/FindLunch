@@ -64,15 +64,13 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
         NsdHelper.gimmeBrosListener = new NsdHelper.gimmeBrosListener() {
             @Override
             public void onBroFound(Bros bro) {
-                if(!bros.contains(bro)) {
-                    bros.add(bro);
-                    showBros();
-                }
+                bros.add(bro);
+                showBros();
             }
         };
 
@@ -84,12 +82,10 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         advertiseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Listening: trying to register a service: " + mConnection.getLocalPort());
-
                 // Register service
                 if (mConnection.getLocalPort() > -1) {
                     mNsdHelper.registerService(mConnection.getLocalPort());
-                    Log.d(TAG, "Listening: Server is here.");
+                    Log.d(TAG, "Server is here.");
                 } else {
                     Log.d(TAG, "ServerSocket isn't bound.");
                 }
@@ -113,11 +109,29 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
                 Log.d("Connect", "beforeconnect." + service);
 
                 if (service != null) {
-                    Log.d(TAG, "Connecting.");
-                    mConnection.connectToServer(service.getHost(),
-                            service.getPort());
+                    Log.d(TAG, "talking Connecting.");
+                    mConnection.connectToServer(service.getHost(), service.getPort());
                 } else {
                     Log.d(TAG, "No service to connect to!");
+                }
+            }
+        });
+
+
+        Button sendButton = (Button) container.findViewById(R.id.send_btn);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Connect", "talking sending here");
+                EditText messageView = (EditText) container.findViewById(R.id.chatInput);
+                if (messageView != null) {
+
+                    String messageString = messageView.getText().toString();
+                    if (!messageString.isEmpty()) {
+                        mConnection.sendMessage(messageString);
+                        Log.d("Connect", "talking sending inside" + messageString);
+                    }
+                    messageView.setText("");
                 }
             }
         });
@@ -127,10 +141,14 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         mUpdateHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                Log.d("Connect", "talking: adding line to the chatline");
+
                 String chatLine = msg.getData().getString("msg");
                 addChatLine(chatLine);
             }
         };
+
+
 
         return view;
 
@@ -145,19 +163,9 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         });
     }
 
-    public void clickSend(View v) {
-        EditText messageView = (EditText) v.findViewById(R.id.chatInput);
-        if (messageView != null) {
-            String messageString = messageView.getText().toString();
-            if (!messageString.isEmpty()) {
-                mConnection.sendMessage(messageString);
-            }
-            messageView.setText("");
-        }
-    }
-
     public void addChatLine(String line) {
         mStatusView.append("\n" + line);
+        Log.d(TAG, "Talking adding text here." + mStatusView.getText());
     }
 
     @Override
@@ -190,23 +198,29 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         }
     }
 
+    // For KitKat and earlier releases, it is necessary to remove the
+    // service registration when the application is stopped.  There's
+    // no guarantee that the onDestroy() method will be called (we're
+    // killable after onStop() returns) and the NSD service won't remove
+    // the registration for us if we're killed.
+    // In L and later, NsdService will automatically unregister us when
+    // our connection goes away when we're killed, so this step is
+    // optional (but recommended).
+    @Override
+    public void onStop() {
+        Log.d(TAG, "Being stopped.");
+        mNsdHelper.tearDown();
+        mConnection.tearDown();
+        mNsdHelper = null;
+        mConnection = null;
+        super.onStop();
+    }
 
     @Override
     public void onBroFound(Bros bro) {
-        if(!bros.contains(bro)) {
-            bros.add(bro);
-            showBros();
-        }
+        bros.add(bro);
+        showBros();
+
     }
 
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "Listening: Being destroyed.");
-//        mNsdHelper.tearDown();
-//        mConnection.tearDown();
-//        mNsdHelper = null;
-//        mConnection = null;
-
-        super.onDestroy();
-    }
 }

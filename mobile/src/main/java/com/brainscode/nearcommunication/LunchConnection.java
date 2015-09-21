@@ -175,6 +175,7 @@ public class LunchConnection {
             public void run() {
                 BufferedReader input;
                 try {
+                    Log.d(CLIENT_TAG, "The Listening: here is socket" + mSocket);
                     input = new BufferedReader(new InputStreamReader(
                             mSocket.getInputStream()));
                     while (!Thread.currentThread().isInterrupted()) {
@@ -184,7 +185,7 @@ public class LunchConnection {
                             Log.d(CLIENT_TAG, "Read from the stream: " + messageStr);
                             updateMessages(messageStr, false);
                         } else {
-                            Log.d(CLIENT_TAG, "The nulls! The nulls!");
+                            Log.d(CLIENT_TAG, "The nulls!1 The nulls!");
                             break;
                         }
                     }
