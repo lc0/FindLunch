@@ -97,9 +97,9 @@ public class NsdHelper {
                     if(gimmeBrosListener!=null){
                         gimmeBrosListener.onBroFound(bro);
                     }
-
-                    Log.d(TAG, "Same IP.");
-                    return;
+//
+//                    Log.d(TAG, "Same IP.");
+//                    return;
                 }
 
 
