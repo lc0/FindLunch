@@ -55,9 +55,13 @@ public class NsdHelper {
 //                    Log.d(TAG, "Bros: Same machine: " + mServiceName + service);
                 } else if (service.getServiceName().contains(mServiceName)){
 
-
-                    Log.d(TAG, "Bros: somebody is here: " + mServiceName + service);
-                    mNsdManager.resolveService(service, mResolveListener);
+                    try {
+                        Log.d(TAG, "Bros: somebody is here: " + mServiceName + service);
+                        mNsdManager.resolveService(service, mResolveListener);
+                    }
+                    catch (IllegalArgumentException ex) {
+                        Log.e(TAG, "Can't resolve - listener already in use");
+                    }
                 }
             }
             @Override
