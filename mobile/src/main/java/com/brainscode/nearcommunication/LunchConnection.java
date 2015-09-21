@@ -50,7 +50,7 @@ public class LunchConnection {
         mPort = port;
     }
     public synchronized void updateMessages(String msg, boolean local) {
-        Log.e(TAG, "Updating message: " + msg);
+        Log.d(TAG, "Updating message: " + msg);
         if (local) {
             msg = "me: " + msg;
         } else {
@@ -175,7 +175,7 @@ public class LunchConnection {
             public void run() {
                 BufferedReader input;
                 try {
-                    Log.d(CLIENT_TAG, "The Listening: here is socket" + mSocket);
+                    Log.d(CLIENT_TAG, "The Listening: here is socket: " + mSocket);
                     input = new BufferedReader(new InputStreamReader(
                             mSocket.getInputStream()));
                     while (!Thread.currentThread().isInterrupted()) {

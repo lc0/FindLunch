@@ -62,7 +62,7 @@ public class NsdHelper {
             }
             @Override
             public void onServiceLost(NsdServiceInfo service) {
-                Log.e(TAG, "service lost" + service);
+//                Log.e(TAG, "service lost" + service);
                 if (mService == service) {
                     mService = null;
                 }
@@ -90,7 +90,7 @@ public class NsdHelper {
             }
             @Override
             public void onServiceResolved(NsdServiceInfo serviceInfo) {
-                Log.e(TAG, "Resolve Succeeded. " + serviceInfo);
+                Log.d(TAG, "Resolve Succeeded. " + serviceInfo);
                 if (serviceInfo.getServiceName().equals(mServiceName)) {
 
                     Bros bro = new Bros(mServiceName, "Dev", true, serviceInfo.getHost().toString());
