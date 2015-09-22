@@ -24,15 +24,21 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
         <TextView
             android:id="@+id/status"
             android:layout_margin="4dp"
             android:background="@android:color/white"
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="fill_parent"
             android:text="Discuss your lunch!"
             android:textColor="@color/common_signin_btn_light_text_default"
             android:focusable="true" />
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -54,7 +54,7 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
             TextView up = (TextView) rowView.findViewById(R.id.upForIt);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.photo);
 
-            name.setText(bros.get(position).name);
+            name.setText(bros.get(position).id);
             up.setText("Hell YEAH");
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.cook));
 
@@ -111,6 +111,7 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
                 if (service != null) {
                     Log.d(TAG, "talking Connecting.");
                     mConnection.connectToServer(service.getHost(), service.getPort());
+                    mConnection.updateSystemMessages("Connected to new lunch crew: " + service.getHost());
                 } else {
                     Log.d(TAG, "No service to connect to!");
                 }
