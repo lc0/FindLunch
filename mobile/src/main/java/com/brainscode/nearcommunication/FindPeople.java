@@ -111,6 +111,7 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
                 if (service != null) {
                     Log.d(TAG, "talking Connecting.");
                     mConnection.connectToServer(service.getHost(), service.getPort());
+                    mConnection.updateSystemMessages("Connected to new lunch crew: " + service.getHost());
                 } else {
                     Log.d(TAG, "No service to connect to!");
                 }
