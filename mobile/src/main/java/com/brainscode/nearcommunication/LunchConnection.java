@@ -62,6 +62,15 @@ public class LunchConnection {
         message.setData(messageBundle);
         mUpdateHandler.sendMessage(message);
     }
+    public synchronized void updateSystemMessages(String msg) {
+        msg = "System: " + msg;
+
+        Bundle messageBundle = new Bundle();
+        messageBundle.putString("msg", msg);
+        Message message = new Message();
+        message.setData(messageBundle);
+        mUpdateHandler.sendMessage(message);
+    }
     private synchronized void setSocket(Socket socket) {
         Log.d(TAG, "setSocket being called.");
         if (socket == null) {
@@ -111,6 +120,7 @@ public class LunchConnection {
                         Log.d(TAG, "Listening: I'm waiting here: " + mServerSocket.getLocalPort());
 
                         setSocket(mServerSocket.accept());
+                        updateSystemMessages("New member has connected: " + mSocket.getInetAddress());
                         Log.d(TAG, "Listening: Connected.");
                         if (mLunchClient == null) {
                             int port = mSocket.getPort();

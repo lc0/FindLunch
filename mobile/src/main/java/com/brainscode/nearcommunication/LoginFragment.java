@@ -32,6 +32,14 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_find_lunch, container, false);
+
+        if (true) {
+            Intent myIntent = new Intent(getActivity(), PlacesActivity.class);
+            getActivity().startActivity(myIntent);
+
+            return view;
+        }
+
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends");
         // If using in a fragment
