@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class FindPeople extends Fragment{
@@ -27,9 +30,12 @@ public class FindPeople extends Fragment{
     NsdHelper mNsdHelper;
     private TextView mStatusView;
     private Handler mUpdateHandler;
+
     public static final String TAG = "nsdLunchme";
     LunchConnection mConnection;
     ListView brosLV;
+
+    ServerService selectedServer;
 
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -55,7 +61,7 @@ public class FindPeople extends Fragment{
             TextView up = (TextView) rowView.findViewById(R.id.upForIt);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.photo);
 
-            name.setText(bros.get(position).id);
+            name.setText(bros.get(position).getHost());
             up.setText("Hell YEAH");
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.cook));
 
@@ -110,13 +116,30 @@ public class FindPeople extends Fragment{
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
-                Log.d("Connect", "beforeconnect." + service);
+                InetAddress host = null;
+                int port = 0;
 
-                if (service != null) {
+                if (selectedServer == null) {
+                    NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
+
+                    host = service.getHost();
+                    port = service.getPort();
+                }
+                else {
+                    try {
+                        host = InetAddress.getByName(selectedServer.getHost());
+                        port = selectedServer.getPort();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+                if (host != null) {
                     Log.d(TAG, "talking Connecting.");
-                    mConnection.connectToServer(service.getHost(), service.getPort());
-                    mConnection.updateSystemMessages("Connected to new lunch crew: " + service.getHost());
+                    mConnection.connectToServer(host, port);
+                    mConnection.updateSystemMessages("Connected to new lunch crew: " + host);
                 } else {
                     Log.d(TAG, "No service to connect to!");
                 }
@@ -162,6 +185,8 @@ public class FindPeople extends Fragment{
                 view.setSelected(true);
 
                 Log.d("Selected", "Selected new server" + bros.get(position));
+                selectedServer = new ServerService(bros.get(position).getHost(),
+                        bros.get(position).getPort());
 
 
             }

@@ -75,19 +75,19 @@
         android:orientation="horizontal" >
         <Button
             android:id="@+id/advertise_btn"
-            android:layout_width="96dp"
+            android:layout_width="100dp"
             android:layout_height="64dp"
-            android:text="clickAdvertise" />
+            android:text="Advertise" />
         <Button
             android:id="@+id/discover_btn"
             android:layout_width="96dp"
             android:layout_height="64dp"
-            android:text="clickDiscover" />
+            android:text="Discover" />
         <Button
             android:id="@+id/connect_btn"
             android:layout_width="96dp"
             android:layout_height="64dp"
-            android:text="clickConnect" />
+            android:text="Connect" />
 
     </LinearLayout>
 
