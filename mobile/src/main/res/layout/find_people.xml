@@ -16,7 +16,10 @@
         android:id="@+id/broContainer"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:choiceMode="singleChoice"
+        android:listSelector="@color/com_facebook_blue"
+        android:background="@drawable/list_custom">
     </ListView>
 
     <LinearLayout

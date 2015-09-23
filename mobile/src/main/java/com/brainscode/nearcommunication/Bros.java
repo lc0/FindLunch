@@ -52,9 +52,10 @@ public class Bros {
             if (this.id.equals(((Bros) o).getId())){
                 return true;
             }
-            if (this.name.equals(((Bros) o).getName())){
-                return true;
-            }
+            // Currently name is not unique, because we use the same service name
+//            if (this.name.equals(((Bros) o).getName())){
+//                return true;
+//            }
         }
 
         return false;

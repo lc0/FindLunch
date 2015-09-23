@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ public class FindPeople extends Fragment{
     private Handler mUpdateHandler;
     public static final String TAG = "nsdLunchme";
     LunchConnection mConnection;
-    ListView brosLL;
+    ListView brosLV;
 
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -80,8 +81,8 @@ public class FindPeople extends Fragment{
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        brosLL = (ListView) container.findViewById(R.id.broContainer);
-        brosLL.setAdapter(adapter);
+        brosLV = (ListView) container.findViewById(R.id.broContainer);
+        brosLV.setAdapter(adapter);
         Button advertiseButton = (Button) container.findViewById(R.id.advertise_btn);
         advertiseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +154,19 @@ public class FindPeople extends Fragment{
             }
         };
 
+        brosLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                ((ListView) parent).clearChoices();
+                view.setSelected(true);
+
+                Log.d("Selected", "Selected new server" + bros.get(position));
+
+
+            }
+        });
+
 
 
         return view;
@@ -163,7 +177,7 @@ public class FindPeople extends Fragment{
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                brosLL.setAdapter(adapter);
+                brosLV.setAdapter(adapter);
             }
         });
     }
