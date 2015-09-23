@@ -16,7 +16,10 @@
         android:id="@+id/broContainer"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:choiceMode="singleChoice"
+        android:listSelector="@color/com_facebook_blue"
+        android:background="@drawable/list_custom">
     </ListView>
 
     <LinearLayout
@@ -72,19 +75,19 @@
         android:orientation="horizontal" >
         <Button
             android:id="@+id/advertise_btn"
-            android:layout_width="96dp"
+            android:layout_width="100dp"
             android:layout_height="64dp"
-            android:text="clickAdvertise" />
+            android:text="Advertise" />
         <Button
             android:id="@+id/discover_btn"
             android:layout_width="96dp"
             android:layout_height="64dp"
-            android:text="clickDiscover" />
+            android:text="Discover" />
         <Button
             android:id="@+id/connect_btn"
             android:layout_width="96dp"
             android:layout_height="64dp"
-            android:text="clickConnect" />
+            android:text="Connect" />
 
     </LinearLayout>
 

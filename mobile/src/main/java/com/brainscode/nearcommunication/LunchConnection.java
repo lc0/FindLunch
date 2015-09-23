@@ -37,6 +37,7 @@ public class LunchConnection {
     }
     public void connectToServer(InetAddress address, int port) {
         mLunchClient = new LunchClient(address, port);
+        Log.d("Listening", "the king is dead long live the king: " + mLunchClient);
     }
     public void sendMessage(String msg) {
         if (mLunchClient != null) {
@@ -122,11 +123,12 @@ public class LunchConnection {
                         setSocket(mServerSocket.accept());
                         updateSystemMessages("New member has connected: " + mSocket.getInetAddress());
                         Log.d(TAG, "Listening: Connected.");
-                        if (mLunchClient == null) {
+                        // TODO: multiple threads for every new client?
+//                        if (mLunchClient == null) {
                             int port = mSocket.getPort();
                             InetAddress address = mSocket.getInetAddress();
                             connectToServer(address, port);
-                        }
+//                        }
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "Listening: Error creating ServerSocket: ", e);

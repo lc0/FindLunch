@@ -97,7 +97,8 @@ public class NsdHelper {
                 Log.d(TAG, "Resolve Succeeded. " + serviceInfo);
                 if (serviceInfo.getServiceName().equals(mServiceName)) {
 
-                    Bros bro = new Bros(mServiceName, "Dev", true, serviceInfo.getHost().toString());
+                    Bros bro = new Bros(mServiceName, "Dev", true,
+                            serviceInfo.getHost().toString(), serviceInfo.getPort());
                     if(gimmeBrosListener!=null){
                         gimmeBrosListener.onBroFound(bro);
                     }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,17 +19,23 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener {
+public class FindPeople extends Fragment{
 
     ArrayList<Bros> bros = new ArrayList<>();
     NsdHelper mNsdHelper;
     private TextView mStatusView;
     private Handler mUpdateHandler;
+
     public static final String TAG = "nsdLunchme";
     LunchConnection mConnection;
-    ListView brosLL;
+    ListView brosLV;
+
+    ServerService selectedServer;
 
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -54,7 +61,7 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
             TextView up = (TextView) rowView.findViewById(R.id.upForIt);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.photo);
 
-            name.setText(bros.get(position).id);
+            name.setText(bros.get(position).getHost());
             up.setText("Hell YEAH");
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.cook));
 
@@ -66,18 +73,22 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
+
         NsdHelper.gimmeBrosListener = new NsdHelper.gimmeBrosListener() {
             @Override
             public void onBroFound(Bros bro) {
-                bros.add(bro);
-                showBros();
+                if (!bros.contains(bro)) {
+                    Log.d("Adding", "inside" + bros.contains(bro));
+                    bros.add(bro);
+                    showBros();
+                }
             }
         };
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        brosLL = (ListView) container.findViewById(R.id.broContainer);
-        brosLL.setAdapter(adapter);
+        brosLV = (ListView) container.findViewById(R.id.broContainer);
+        brosLV.setAdapter(adapter);
         Button advertiseButton = (Button) container.findViewById(R.id.advertise_btn);
         advertiseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,13 +116,30 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
-                Log.d("Connect", "beforeconnect." + service);
+                InetAddress host = null;
+                int port = 0;
 
-                if (service != null) {
+                if (selectedServer == null) {
+                    NsdServiceInfo service = mNsdHelper.getChosenServiceInfo();
+
+                    host = service.getHost();
+                    port = service.getPort();
+                }
+                else {
+                    try {
+                        host = InetAddress.getByName(selectedServer.getHost());
+                        port = selectedServer.getPort();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+                if (host != null) {
                     Log.d(TAG, "talking Connecting.");
-                    mConnection.connectToServer(service.getHost(), service.getPort());
-                    mConnection.updateSystemMessages("Connected to new lunch crew: " + service.getHost());
+                    mConnection.connectToServer(host, port);
+                    mConnection.updateSystemMessages("Connected to new lunch crew: " + host);
                 } else {
                     Log.d(TAG, "No service to connect to!");
                 }
@@ -149,6 +177,21 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
             }
         };
 
+        brosLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
+                ((ListView) parent).clearChoices();
+                view.setSelected(true);
+
+                Log.d("Selected", "Selected new server" + bros.get(position));
+                selectedServer = new ServerService(bros.get(position).getHost(),
+                        bros.get(position).getPort());
+
+
+            }
+        });
+
 
 
         return view;
@@ -159,7 +202,7 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                brosLL.setAdapter(adapter);
+                brosLV.setAdapter(adapter);
             }
         });
     }
@@ -215,13 +258,6 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         mNsdHelper = null;
         mConnection = null;
         super.onStop();
-    }
-
-    @Override
-    public void onBroFound(Bros bro) {
-        bros.add(bro);
-        showBros();
-
     }
 
 }
