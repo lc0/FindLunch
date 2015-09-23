@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener {
+public class FindPeople extends Fragment{
 
     ArrayList<Bros> bros = new ArrayList<>();
     NsdHelper mNsdHelper;
@@ -66,11 +66,15 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         inflater.inflate(R.layout.find_people, container);
+
         NsdHelper.gimmeBrosListener = new NsdHelper.gimmeBrosListener() {
             @Override
             public void onBroFound(Bros bro) {
-                bros.add(bro);
-                showBros();
+                if (!bros.contains(bro)) {
+                    Log.d("Adding", "inside" + bros.contains(bro));
+                    bros.add(bro);
+                    showBros();
+                }
             }
         };
 
@@ -215,13 +219,6 @@ public class FindPeople extends Fragment implements NsdHelper.gimmeBrosListener 
         mNsdHelper = null;
         mConnection = null;
         super.onStop();
-    }
-
-    @Override
-    public void onBroFound(Bros bro) {
-        bros.add(bro);
-        showBros();
-
     }
 
 }
