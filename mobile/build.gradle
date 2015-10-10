@@ -27,3 +27,13 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
 }
 
+
+def FOURSQUARE_CLIENT_ID = '"' + FoursquareClientId + '"' ?: '"Define Clarifai App Id"';
+def FOURSQUARE_CLIENT_SECRET = '"' + FoursquareClientSecret + '"' ?: '"Define Clarifai App Secret"';
+
+
+
+android.buildTypes.each { type ->;
+    type.buildConfigField 'String', 'FOURSQUARE_CLIENT_ID', FOURSQUARE_CLIENT_ID
+    type.buildConfigField 'String', 'FOURSQUARE_CLIENT_SECRET', FOURSQUARE_CLIENT_SECRET
+}
