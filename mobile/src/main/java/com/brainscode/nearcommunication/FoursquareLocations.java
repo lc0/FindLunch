@@ -29,8 +29,8 @@ class FoursquareLocations extends AsyncTask<String, Void, String> {
     }
 
     private String strm = "22.81,89.55";
-    private String client_id = "ZLC3BYW2IPZX0UBBLIVCJJYJLDA5HTN5NQ0011SMU5CHPG3K";
-    private String client_secret = "RDNVCMA10IF4GPAZRMPKOCTQVCL4OLF2BQEJFSSSKLEGBBPE";
+    private String client_id = BuildConfig.FOURSQUARE_CLIENT_ID;
+    private String client_secret = BuildConfig.FOURSQUARE_CLIENT_SECRET;
     private String currentDateandTime = "20130715";  //yyyymmdd
     private String category = "4d4b7105d754a06374d81259";
     String jsonResult;

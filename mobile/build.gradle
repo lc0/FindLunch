@@ -27,3 +27,15 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
 }
 
+
+def FOURSQUARE_CLIENT_ID = '"' + FoursquareClientId + '"' ?: '"Define Foursquare Client Id"';
+def FOURSQUARE_CLIENT_SECRET = '"' + FoursquareClientSecret + '"' ?: '"Define Foursquare Client Secret"';
+def GOOGLE_MAPS_API_KEY = '"' + GoogleMapsApiKey + '"' ?: '"Define Google Maps API Key"';
+
+
+
+android.buildTypes.each { type ->;
+    type.buildConfigField 'String', 'FOURSQUARE_CLIENT_ID', FOURSQUARE_CLIENT_ID
+    type.buildConfigField 'String', 'FOURSQUARE_CLIENT_SECRET', FOURSQUARE_CLIENT_SECRET
+    type.resValue 'string', 'GOOGLE_MAPS_API_KEY', GOOGLE_MAPS_API_KEY
+}
